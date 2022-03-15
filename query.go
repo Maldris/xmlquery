@@ -10,14 +10,38 @@ import (
 	"github.com/antchfx/xpath"
 )
 
-// SelectElements finds child elements with the specified name.
-func (n *Node) SelectElements(name string) []*Node {
-	return Find(n, name)
+// SelectElements finds child elements matching the specified query.
+func (n *Node) SelectElements(query string) []*Node {
+	return Find(n, query)
 }
 
-// SelectElement finds child elements with the specified name.
-func (n *Node) SelectElement(name string) *Node {
-	return FindOne(n, name)
+// SelectElement finds child elements matching the specified query.
+func (n *Node) SelectElement(query string) *Node {
+	return FindOne(n, query)
+}
+
+// Queryfinds the first of child elements 
+// matching the specified query.
+func (n *Node) Query(query string) (*Node, error) {
+	return Query(n, query)
+}
+
+// QueryAllfinds all child elements matching
+// the specified query.
+func (n *Node) QueryAll(query string) ([]*Node, error) {
+	return QueryAll(n, query)
+}
+
+// QuerySelector returns the first matched child Node by the
+// specified XPath selector.
+func (n *Node) QuerySelector(selector *xpath.Expr) *Node {
+	return QuerySelector(n, selector)
+}
+
+// QuerySelectorAll searches all of the Node that matches the
+// specified XPath selectors.
+func (n *Node) QuerySelectorAll(selector *xpath.Expr) []*Node {
+	return QuerySelectorAll(n, selector)
 }
 
 // SelectAttr returns the attribute value with the specified name.
