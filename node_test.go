@@ -265,6 +265,94 @@ func TestSelectElement(t *testing.T) {
 	}
 }
 
+func TestQuery(t *testing.T) {
+	s := `<?xml version="1.0" encoding="UTF-8"?>
+    <AAA>
+        <BBB id="1"/>
+        <CCC id="2">
+            <DDD/>
+        </CCC>
+		<CCC id="3">
+            <DDD/>
+        </CCC>
+     </AAA>`
+	root, err := Parse(strings.NewReader(s))
+	if err != nil {
+		t.Error(err)
+	}
+	version := root.FirstChild.SelectAttr("version")
+	if version != "1.0" {
+		t.Fatal("version!=1.0")
+	}
+	aaa := findNode(root, "AAA")
+	var n *Node
+	n, err = aaa.Query("BBB")
+	if err != nil {
+		t.Fatal("Unexpected error returned by Query: ", err)
+	}
+	if n == nil {
+		t.Fatalf("n is nil")
+	}
+	n, err = aaa.Query("CCC")
+	if err != nil {
+		t.Fatal("Unexpected error returned by Query: ", err)
+	}
+	if n == nil {
+		t.Fatalf("n is nil")
+	}
+
+	var ns []*Node
+	ns, err = aaa.QueryAll("CCC")
+	if err != nil {
+		t.Fatal("Unexpected error returned by Query: ", err)
+	}
+	if len(ns) != 2 {
+		t.Fatalf("len(ns)!=2")
+	}
+}
+
+
+func TestQuerySelector(t *testing.T) {
+	s := `<?xml version="1.0" encoding="UTF-8"?>
+    <AAA>
+        <BBB id="1"/>
+        <CCC id="2">
+            <DDD/>
+        </CCC>
+		<CCC id="3">
+            <DDD/>
+        </CCC>
+     </AAA>`
+	root, err := Parse(strings.NewReader(s))
+	if err != nil {
+		t.Error(err)
+	}
+	version := root.FirstChild.SelectAttr("version")
+	if version != "1.0" {
+		t.Fatal("version!=1.0")
+	}
+	aaa := findNode(root, "AAA")
+	qa,_ := getQuery("BBB")
+	qb,_ := getQuery("CCC")
+	qc,_ := getQuery("CCC")
+	var n *Node
+	n = aaa.QuerySelector(qa)
+	if n == nil {
+		t.Fatalf("n is nil")
+	}
+	n = aaa.QuerySelector(qb)
+	if n == nil {
+		t.Fatalf("n is nil")
+	}
+
+	var ns []*Node
+	ns = aaa.QuerySelectorAll(qc)
+	if len(ns) != 2 {
+		t.Fatalf("len(ns)!=2")
+	}
+}
+
+
 func TestEscapeOutputValue(t *testing.T) {
 	data := `<AAA>&lt;*&gt;</AAA>`
 
