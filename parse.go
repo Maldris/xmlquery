@@ -91,7 +91,7 @@ func (p *parser) parse() (*Node, error) {
 		switch tok := tok.(type) {
 		case xml.StartElement:
 			if p.level == 0 {
-				// mising XML declaration
+				// missing XML declaration
 				node := &Node{Type: DeclarationNode, Data: "xml", level: 1}
 				AddChild(p.prev, node)
 				p.level = 1
@@ -357,7 +357,7 @@ func (sp *StreamParser) Read() (*Node, error) {
 		// We need to remove all siblings before the current stream node,
 		// because the document may contain unwanted nodes between the target
 		// ones (for example new line text node), which would otherwise
-		// accumulate as first childs, and slow down the stream over time
+		// accumulate as first child's, and slow down the stream over time
 		for sp.p.streamNode.PrevSibling != nil {
 			RemoveFromTree(sp.p.streamNode.PrevSibling)
 		}
