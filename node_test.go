@@ -258,8 +258,7 @@ func TestSelectElement(t *testing.T) {
 		t.Fatalf("n is nil")
 	}
 
-	var ns []*Node
-	ns = aaa.SelectElements("CCC")
+	ns := aaa.SelectElements("CCC")
 	if len(ns) != 2 {
 		t.Fatalf("len(ns)!=2")
 	}
@@ -345,8 +344,7 @@ func TestQuerySelector(t *testing.T) {
 		t.Fatalf("n is nil")
 	}
 
-	var ns []*Node
-	ns = aaa.QuerySelectorAll(qc)
+	ns := aaa.QuerySelectorAll(qc)
 	if len(ns) != 2 {
 		t.Fatalf("len(ns)!=2")
 	}
