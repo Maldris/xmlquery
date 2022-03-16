@@ -113,11 +113,11 @@ func TestNamespaceURL(t *testing.T) {
 	if node.NamespaceURI != "https://purl.org/dc/elements/1.1/" {
 		t.Fatalf("dc:creator != %s", node.NamespaceURI)
 	}
-	if strings.Index(top.InnerText(), "author") > 0 {
+	if strings.Contains(top.InnerText(), "author") {
 		t.Fatalf("InnerText() include comment node text")
 	}
-	if strings.Index(top.OutputXML(true), "author") == -1 {
-		t.Fatal("OutputXML shoud include comment node,but not")
+	if !strings.Contains(top.OutputXML(true), "author") {
+		t.Fatal("OutputXML should include comment node,but not")
 	}
 }
 
